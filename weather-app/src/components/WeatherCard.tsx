@@ -16,14 +16,16 @@ export const WeatherCard = ({ weather }: { weather: WeatherData }) => {
     <div className={`card ${styles.card}`}>
       <div className="card-body">
         <Link href={`/city/${weather.name}`} className="text-decoration-none">
-          <h5 className="card-title">{weather.name}</h5>
+          <h3 className="card-title">{weather.name}</h3>
         </Link>
-        <p className="card-text">Температура: {weather.main.temp}°C</p>
-        <p className="card-text">{weather.weather[0].description}</p>
-        <img
-          src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
-          alt="icon"
-        />
+        <p className="card-text">Температура: {Math.round(weather.main.temp)}°C</p>
+        <p className="card-text">
+          {weather.weather[0].description}
+          <img
+            src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+            alt="icon"
+          />
+        </p>
         <button
           className={`btn btn-${isFavorite ? 'danger' : 'outline-primary'} mt-2`}
           onClick={toggleFavorite}

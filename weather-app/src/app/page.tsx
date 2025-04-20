@@ -6,6 +6,7 @@ import { fetchCurrentWeather } from '@/utils/api';
 import { WeatherData } from '@/types/weather';
 import { Loader } from '@/components/Loader';
 import { ErrorAlert } from '@/components/ErrorAlert';
+import { Navbar } from '@/components/NavBar';
 
 export default function HomePage() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -28,6 +29,7 @@ export default function HomePage() {
 
   return (
     <main className="container py-4">
+      <Navbar />
       <SearchBar onSearch={handleSearch} />
       {loading && <Loader />}
       {error && <ErrorAlert message={error} />}
