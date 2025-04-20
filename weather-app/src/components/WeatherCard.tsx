@@ -3,13 +3,18 @@ import Link from 'next/link';
 import { useWeatherStore } from '@/store/useWeatherStore';
 import { WeatherData } from '@/types/weather';
 import styles from '@/styles/components/WeatherCard.module.scss';
+import Image from 'next/image';
 
 export const WeatherCard = ({ weather }: { weather: WeatherData }) => {
   const { favorites, addFavorite, removeFavorite } = useWeatherStore();
   const isFavorite = favorites.some((c) => c.id === weather.id);
 
   const toggleFavorite = () => {
-    isFavorite ? removeFavorite(weather.id) : addFavorite(weather);
+    if (isFavorite) {
+      removeFavorite(weather.id);
+    } else {
+      addFavorite(weather);
+    }
   };
 
   return (
@@ -21,7 +26,9 @@ export const WeatherCard = ({ weather }: { weather: WeatherData }) => {
         <p className="card-text">Температура: {Math.round(weather.main.temp)}°C</p>
         <p className="card-text">
           {weather.weather[0].description}
-          <img
+          <Image
+            width={40}
+            height={40}
             src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
             alt="icon"
           />

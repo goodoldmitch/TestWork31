@@ -5,18 +5,15 @@ import { fetchForecast } from '@/utils/api';
 import { Loader } from '@/components/Loader';
 import { ErrorAlert } from '@/components/ErrorAlert';
 import { Navbar } from '@/components/NavBar';
+import Image from 'next/image';
+import { ForecastItem, ForecastData } from '@/types/weather';
 
-type ForecastItem = {
-  dt_txt: string;
-  main: { temp: number };
-  weather: { description: string; icon: string }[];
-};
 
 export default function CityPage() {
   const params = useParams();
   const cityName = decodeURIComponent(params.name as string);
 
-  const [forecast, setForecast] = useState<any>(null);
+  const [forecast, setForecast] = useState<ForecastData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,11 +52,12 @@ export default function CityPage() {
 
       <div className="card mb-4">
         <div className="card-body d-flex align-items-center">
-          <img
+          <Image
             src={`https://openweathermap.org/img/w/${forecast.list[0].weather[0].icon}.png`}
             alt="icon"
             className="me-3"
-            style={{ width: '60px', height: '60px' }}
+            width={40}
+            height={40}
           />
           <div>
             <h4 className="card-title mb-1">Сейчас в {forecast.city.name}</h4>
@@ -120,7 +118,9 @@ export default function CityPage() {
                             <p className="card-text">Температура: {Math.round(item.main.temp)}°C</p>
                             <p className="card-text">
                               {item.weather[0].description}
-                              <img
+                              <Image
+                                width={40}
+                                height={40}
                                 src={`https://openweathermap.org/img/w/${item.weather[0].icon}.png`}
                                 alt="icon"
                               />
